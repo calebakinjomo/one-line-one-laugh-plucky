@@ -25,12 +25,16 @@ def validate(text: str) -> str:
 
 
 def main() -> None:
+    """Validate the line, write it, then read it back and verify it matches."""
     text = validate(ENTRY)
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
     with open(path, "w", encoding="utf-8") as f:
         f.write(text)
+    with open(path, encoding="utf-8") as f:
+        if f.read() != text:
+            raise SystemExit("entry.txt does not match the validated entry")
     print(text)
 
 
